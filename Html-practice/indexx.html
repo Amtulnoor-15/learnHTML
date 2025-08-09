@@ -8,45 +8,17 @@
 </head>
 <body>
     <h1>Dynamic table</h1>
-    <div>
-        <table class="container" id="mytable">
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>10</td>
-                <td>11</td>
-                <td>12</td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td>14</td>
-                <td>15</td>
-                <td>16</td>
-            </tr>
-        </table>
-    </div>
-</body>
-<script>
-    function createtable(){
+    <table id="myTable"></table>
+    <script>
+            function createtable(){
          let table = document.getElementById("myTable");
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 1; i < 5; i++) {
         const row = document.createElement("tr");
 
-        for (let j = 0; j < 5; j++) {
+        for (let j = 1; j < 5; j++) {
             const cell = document.createElement("td");
-            cell.textContent = `(${i + 1}, ${j + 1})`; // Optional: show coordinates
+            cell.textContent = `${i, j}`; 
             row.appendChild(cell);
         }
 
@@ -55,7 +27,9 @@
 
     }
     createtable();
-</script>
+    </script>
+        
+</body>
 </html>
 
 <!--Task:
