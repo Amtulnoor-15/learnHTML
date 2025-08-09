@@ -1,5 +1,20 @@
-table{
-   border: 2px;
+/* Make body full height and center content */
+body {
+    height: 100vh; /* 100% of the viewport height */
+    margin: 0;
     display: flex;
-    justify-content: center;
+    align-items: center;  /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+}
+
+/* Style the table (optional) */
+table {
+    border-collapse: collapse;
+}
+
+/* Optional styling for clarity */
+table, th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
 }
