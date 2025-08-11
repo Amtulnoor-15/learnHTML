@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../CFI-A25-Amtul/Assigment-Day-3.js"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "learnHTML"
+	}
+}
