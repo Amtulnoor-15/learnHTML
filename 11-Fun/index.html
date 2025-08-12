@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chocolate Chip Cookies Recipe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #fffbe6;
+    }
+    h1, h2 {
+      color: #5c3d00;
+    }
+    .recipe-img {
+      width: 300px;
+      border-radius: 10px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #ffcc66;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #e6b800;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍪 Chocolate Chip Cookies</h1>
+  <img class="recipe-img" src="https://example.com/cookie.jpg" alt="Chocolate Chip Cookies">
+
+  <div class="section">
+    <p>This classic chocolate chip cookie recipe makes chewy, sweet cookies that are easy to bake!</p>
+  </div>
+
+  <div class="section">
+    <button onclick="toggleSection('ingredients')">Toggle Ingredients</button>
+    <ul id="ingredients">
+      <li>1 cup butter, softened</li>
+      <li>1 cup white sugar</li>
+      <li>1 cup brown sugar</li>
+      <li>2 eggs</li>
+      <li>2 tsp vanilla extract</li>
+      <li>3 cups flour</li>
+      <li>1 tsp baking soda</li>
+      <li>2 cups chocolate chips</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <button onclick="toggleSection('steps')">Toggle Steps</button>
+    <ol id="steps">
+      <li>Preheat oven to 350°F (175°C).</li>
+      <li>Cream together butter and sugars.</li>
+      <li>Add eggs and vanilla, mix well.</li>
+      <li>Stir in flour and baking soda.</li>
+      <li>Fold in chocolate chips.</li>
+      <li>Drop spoonfuls onto baking sheet.</li>
+      <li>Bake for 10–12 minutes until golden.</li>
+    </ol>
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      if (section.style.display === "none") {
+        section.style.display = "block";
+      } else {
+        section.style.display = "none";
+      }
+    }
+
+    // Optional: hide sections by default
+    document.getElementById("ingredients").style.display = "none";
+    document.getElementById("steps").style.display = "none";
+  </script>
+
+</body>
+</html>
