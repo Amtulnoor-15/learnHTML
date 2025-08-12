@@ -1,11 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>onScreenKeypad</title>
+  <meta charset="UTF-8">
+  <title>Onscreen Keyboard</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    #keyboard {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 600px;
+      gap: 10px;
+    }
+
+    .key {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .key:hover {
+      background-color: #ddd;
+    }
+
+    .key.wide {
+      width: 80px;
+    }
+
+    #output {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
-    <h2>onScreenKeypad</h2>
+
+  <input type="text" id="output" placeholder="Type here..." readonly>
+
+  <div id="keyboard">
+    <!-- Letters -->
+    <div class="key">Q</div>
+    <div class="key">W</div>
+    <div class="key">E</div>
+    <div class="key">R</div>
+    <div class="key">T</div>
+    <div class="key">Y</div>
+    <div class="key">U</div>
+    <div class="key">I</div>
+    <div class="key">O</div>
+    <div class="key">P</div>
+
+    <div class="key">A</div>
+    <div class="key">S</div>
+    <div class="key">D</div>
+    <div class="key">F</div>
+    <div class="key">G</div>
+    <div class="key">H</div>
+    <div class="key">J</div>
+    <div class="key">K</div>
+    <div class="key">L</div>
+
+    <div class="key">Z</div>
+    <div class="key">X</div>
+    <div class="key">C</div>
+    <div class="key">V</div>
+    <div class="key">B</div>
+    <div class="key">N</div>
+    <div class="key">M</div>
+
+    <!-- Space and backspace -->
+    <div class="key wide" id="space">Space</div>
+    <div class="key wide" id="backspace">Backspace</div>
+  </div>
+
+  <script>
+    const keys = document.querySelectorAll('.key');
+    const output = document.getElementById('output');   // Grabs all the key buttons and the input field.
+
+    keys.forEach(key => {
+      key.addEventListener('click', () => {
+        const keyValue = key.textContent;         //Adds a click event to every key, gets the letter or word inside the clicked key.
+
+        if (key.id === 'backspace') {
+          output.value = output.value.slice(0, -1);  // if the key is "Back", remove the last character from the input.
+        } else if (key.id === 'space') {
+          output.value += ' ';                      // If the key is "Space", add a space to the input.
+        } else {
+          output.value += keyValue;                // Otherwise, just add the clicked letter to the input field.
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>
