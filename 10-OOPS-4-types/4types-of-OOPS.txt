@@ -1,0 +1,4 @@
+ 1. Encapsulation
+Think of it like keeping your data safe inside a box.
+You keep your variables (data) hidden inside a class, 
+and only allow access using functions (methods). This keeps things clean and secure.
