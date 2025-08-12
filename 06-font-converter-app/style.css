@@ -29,6 +29,9 @@ textarea {
   font-size: 20px;
   font-family: 'Courier New', monospace; /* Example converted font */
   color: #333;
+
+
+  
   pointer-events: none;     /* Prevents clicking */
   user-select: none;        /* Prevents selecting text */
   border-radius: 4px;
