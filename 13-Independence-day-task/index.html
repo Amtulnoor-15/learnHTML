@@ -1,164 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Realistic Indian Flag</title>
-    <style>
-        body {
-            background: linear-gradient(#cceeff, #e0f7ff);
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+  <meta charset="UTF-8">
+  <title>Simple Indian Flag</title>
+  <style>
+    body {
+      margin: 0;
+      background: #e6f7ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
 
-        .flag-container {
-            position: relative;
-            cursor: pointer;
-        }
+    .flag-container {
+      position: relative;
+      cursor: pointer;
+    }
 
-        .pole {
-            position: absolute;
-            left: -20px;
-            top: 0;
-            width: 12px;
-            height: 220px;
-            background: linear-gradient(to bottom, #444, #222);
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
-        }
+    .pole {
+      position: absolute;
+      height: 220px;
+      width: 10px;
+      background-color: #444;
+      left: -15px;
+      top: 0;
+      border-radius: 5px;
+    }
 
-        .flag {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            background-image:
-                url('https://www.transparenttextures.com/patterns/light-wool.png'),
-                linear-gradient(to bottom, #FF9933 33%, white 33%, white 66%, #138808 66%);
-            background-blend-mode: overlay;
-            background-size: cover;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-            transform-origin: left center;
-            animation: wave 4s infinite ease-in-out;
-        }
+    .flag {
+      width: 270px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: wave 3s ease-in-out infinite;
+      transform-origin: left center;
+      border-radius: 3px;
+      overflow: hidden;
+    }
 
-        @keyframes wave {
-            0% {
-                transform: rotate(0deg) skewY(0deg);
-            }
+    .stripe {
+      flex: 1;
+      width: 100%;
+    }
 
-            25% {
-                transform: rotate(3deg) skewY(2deg);
-            }
+    .saffron {
+      background-color: #FF9933;
+    }
 
-            50% {
-                transform: rotate(0deg) skewY(0deg);
-            }
+    .white {
+      background-color: white;
+      position: relative;
+    }
 
-            75% {
-                transform: rotate(-3deg) skewY(-2deg);
-            }
+    .green {
+      background-color: #138808;
+    }
 
-            100% {
-                transform: rotate(0deg) skewY(0deg);
-            }
-        }
+    .chakra {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      transform: translate(-50%, -50%);
+      animation: spin 10s linear infinite;
+    }
 
-        .chakra {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80px;
-            height: 80px;
-            transform: translate(-50%, -50%);
-            animation: spin 8s linear infinite;
-            filter: drop-shadow(0 0 4px rgba(0, 0, 128, 0.4));
-        }
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(2deg); }
+      100% { transform: rotate(0deg); }
+    }
 
-        @keyframes spin {
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
+    @keyframes spin {
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
 
-        .chakra:hover {
-            animation: glow 1s infinite alternate;
-        }
-
-        @keyframes glow {
-            0% {
-                filter: drop-shadow(0 0 4px rgba(0, 0, 128, 0.4));
-            }
-
-            100% {
-                filter: drop-shadow(0 0 12px rgba(0, 0, 255, 0.8));
-            }
-        }
-
-        audio {
-            display: none;
-        }
-
-        .audio-controls {
-            position: absolute;
-            bottom: -40px;
-            left: 0;
-            padding: 4px 10px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 6px;
-            font-size: 14px;
-            color: #333;
-            cursor: default;
-        }
-
-        .audio-controls button {
-            margin-right: 8px;
-        }
-    </style>
+    .audio-status {
+      position: absolute;
+      top: 190px;
+      left: 0;
+      font-size: 12px;
+      color: #333;
+    }
+  </style>
 </head>
-
 <body>
 
-    <div class="flag-container" aria-label="Indian National Flag" role="button" tabindex="0">
-        <div class="pole"></div>
-        <div class="flag">
-            <img class="chakra" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Ashoka_Chakra.svg"
-                alt="Ashoka Chakra">
-        </div>
+  <div class="flag-container" onclick="playAnthem()">
+    <div class="pole"></div>
+    <div class="flag">
+      <div class="stripe saffron"></div>
+      <div class="stripe white">
+        <img class="chakra" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Ashoka_Chakra.svg" alt="Ashoka Chakra">
+      </div>
+      <div class="stripe green"></div>
     </div>
+    <div class="audio-status" id="status">Click flag to play anthem</div>
+  </div>
 
-    <div class="audio-controls">
-        <button onclick="togglePlay()">Play / Pause Anthem</button>
-        <span id="status">Paused</span>
-    </div>
+  <audio id="anthem" src="anthem.mp3"></audio>
 
-    <audio id="anthem" src="anthem.mp3"></audio>
+  <script>
+    let anthemAudio = document.getElementById('anthem');
+    let status = document.getElementById('status');
 
-    <script>
-        const flagContainer = document.querySelector('.flag-container');
-        const anthem = document.getElementById('anthem');
-        const status = document.getElementById('status');
+    function playAnthem() {
+      if (anthemAudio.paused) {
+        anthemAudio.play();
+        status.textContent = "Playing anthem...";
+      } else {
+        anthemAudio.pause();
+        anthemAudio.currentTime = 0;
+        status.textContent = "Click flag to play anthem";
+      }
+    }
 
-        flagContainer.addEventListener('click', () => {
-            anthem.play();
-            status.textContent = 'Playing';
-            // Add pulse effect on click
-            flagContainer.querySelector('.chakra').style.transition = 'transform 0.3s';
-            flagContainer.querySelector('.chakra').style.transform += ' scale(1.2)';
-            setTimeout(() => {
-                flagContainer.querySelector('.chakra').style.transform = 'translate(-50%, -50%)';
-            }, 300);
-        });
+    anthemAudio.addEventListener('ended', () => {
+      status.textContent = "Click flag to play again";
+    });
+  </script>
 
-        function togglePlay() {
-            if (anthem.paused) {
-                anthem.play();
-                status.textContent = 'Playing';
-            } else {
-                anthem.pause();
-            }
-        }
-    
+</body>
+</html>
