@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Digital Clock</title>
@@ -7,7 +8,8 @@
     body {
       margin: 0;
       padding: 0;
-      background: #000; /* solid black background */
+      background: #000;
+      /* solid black background */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,6 +37,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div id="clock">--:--:--</div>
@@ -44,6 +47,12 @@
       constructor(containerId) {
         this.container = document.getElementById(containerId);
       }
+      /*
+            
+      First, it calls update() once to show the current time immediately.
+      Then, it sets a timer that runs update() again every 1000 milliseconds (1 second).
+      It uses setInterval(...) to do this.
+      The arrow function () => this.update() ensures that this still refers to the DigitalClock object.**/
 
       start() {
         this.update();
@@ -51,9 +60,9 @@
       }
 
       update() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString();
-        this.container.textContent = timeString;
+        const now = new Date();  //gets the current date and time.
+        const timeString = now.toLocaleTimeString(); //formats it nicely into a readable time (like 10:35:21 AM).
+        this.container.textContent = timeString;  // updates the HTML on the page to show the time.
       }
     }
 
@@ -62,4 +71,5 @@
   </script>
 
 </body>
+
 </html>
