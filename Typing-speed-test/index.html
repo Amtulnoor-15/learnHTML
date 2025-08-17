@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+
+    <style>
+        :root{
+            --bg:#0f172a;
+            --card:#111827;
+            --muted:#94a3b8;
+            --text:#e5e7eb;
+            --accent:#22d3ee;
+            --ok:#22c55e;
+            --bad:#ef4444;
+            --warn:#f59e0b;
+        }
+        *{box-sizing: border-box}
+        body{
+            margin: 0; min-height: 100vh; display: flex;align-items: center;justify-content: center;
+            background: radial-gradient(1200px 700px at 20% -10%, #1f2937 0%, transparent 60%),
+            radial-gradient(900px 600px at 120% 120%, #0b3b46 0%,transparent 60%),
+            var(--bg);
+            color: var(--text); font-family: ui-sans-serif,system-ui,Segoe UI,Roboto,Helcetica,Arial;
+            padding: 24px;
+        }
+        .app{
+            width: min(920px,100%); background: linear-gradient(180deg,#0b1220, var(--card));
+            border:1px solid #1f2937; border-radius: 18px; padding: 22px; box-shadow: 0 10px 40px rgba(0,0,0,.45);
+        }
+        .topbar{display: flex; gap: 10px;align-items: center; justify-content: space-between; flex-wrap: wrap;}
+        .controls{display: flex; gap: 10px; align-items: center;flex-wrap: wrap}
+        select,button{ background:#0b1220; color:var(--text); border:1px solid #233046; border-radius:10px;
+    padding:10px 12px; cursor:pointer; font-weight:600;
+  }
+  button.primary{background: var(--accent);color: #002b2f; border: none;}
+  button:disabled{opacity:.6; cursor:not-allowed}
+  .stats{display: flex; gap: 18px; flex-wrap: wrap;}
+  .stat{
+    background: 0b1220;border: 1px solid #1f2937; border-radius:14px; padding: 10px 14px; min-width: 110px; text-align: center;
+  }
+  .stat .label{color: var(--muted); font-size: 12px; letter-spacing:.04em}
+  .stat .value{font-size: 22px; font-weight: 800}
+  .timer{font-weight: 800; letter-spacing: .04em;}
+  .area{
+    margin-top: 16px; padding: 18px; border-radius: 14px;line-height: 2.1;
+    background: #0b1220;border: 1px solid #1f2937; min-height: 170px;user-select: none;
+  }
+  .word{margin-right: 10px; position: relative;}
+  .char{opacity:.85}
+  .char .correct{color: var(--ok)}
+  .char .incorrect{color: var(--bad); text-decoration: underline;}
+  .caret{ display: inline-block;width: 2px; height: 1.4em; background: var(--accent);
+position:relative; top: 3px; animation: blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0}}
+.hidden-input{
+    position: absolute; left: -9999px; top: -9999px; opacity: 0;
+}
+.footer{margin-top: 14px; color: var(--muted); font-size: 12px; background:#07101f;border: 1px solid #1f2937;}
+  .summary{
+    margin-top: 16px; padding: 16px; border-radius: 12px; background: #07101f; border: 1px solid #1f2937;
+  }
+    </style>
+</head>
+<body>
+    <div class="app" id = "app">
+        <div class=""></div></div>
+</body>
+</html>
