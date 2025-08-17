@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Emotional Intelligence Fun Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .quiz-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      width: 400px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    .question {
+      font-size: 18px;
+      margin: 1rem 0;
+    }
+    .options {
+      list-style: none;
+      padding: 0;
+    }
+    .options li {
+      background: #f0f0f0;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options li:hover {
+      background: #d6e0f0;
+    }
+    #next-btn {
+      margin-top: 1rem;
+      padding: 10px 20px;
+      border: none;
+      background: #6c5ce7;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none;
+    }
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>EI Fun Quiz 🎉</h1>
+    <div id="quiz">
+      <p class="question" id="question"></p>
+      <ul class="options" id="options"></ul>
+      <button id="next-btn">Next</button>
+    </div>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Your friend is upset because their project failed. What’s the BEST first response?",
+        options: ["Chill, it’s not a big deal.", "I told you this would happen.", "That sucks… want to talk about it?", "Let’s watch memes and forget this."],
+        answer: 2
+      },
+      {
+        question: "You’re super stressed but someone cuts in line at the café. What do you do?",
+        options: ["Politely say, 'Excuse me, I was here first.'", "Explode like the Hulk.", "Say nothing but give death stares.", "Leave the café and cry in the washroom."],
+        answer: 0
+      },
+      {
+        question: "Your teammate made a mistake. What’s your reaction?",
+        options: ["Publicly shame them.", "Take all the blame yourself.", "Talk privately and find solutions.", "Pretend it didn’t happen."],
+        answer: 2
+      },
+      {
+        question: "What do you usually notice first in a conversation?",
+        options: ["The person’s tone of voice.", "Their exact words only.", "What’s on their phone screen.", "How fast you can escape."],
+        answer: 0
+      },
+      {
+        question: "When you’re sad, what’s your go-to coping style?",
+        options: ["Eat ice cream.", "Journal/write thoughts down.", "Spam reels until 3am.", "Pretend everything’s fine (but it’s not)."],
+        answer: 1
+      }
+    ];
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const resultEl = document.getElementById("result");
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((option, index) => {
+        const li = document.createElement("li");
+        li.textContent = option;
+        li.onclick = () => selectOption(index);
+        optionsEl.appendChild(li);
+      });
+    }
+
+    function selectOption(index) {
+      const q = quizData[currentQuestion];
+      if (index === q.answer) {
+        score++;
+      }
+      Array.from(optionsEl.children).forEach((li, i) => {
+        li.style.pointerEvents = "none";
+        if (i === q.answer) li.style.background = "#55efc4";
+        else if (i === index) li.style.background = "#fab1a0";
+      });
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+        nextBtn.style.display = "none";
+      } else {
+        showResult();
+      }
+    };
+
+    function showResult() {
+      questionEl.style.display = "none";
+      optionsEl.style.display = "none";
+      nextBtn.style.display = "none";
+      let feedback = "";
+      if (score === 5) feedback = "🌟 High EI! You’re emotionally smart!";
+      else if (score >= 3) feedback = "😎 Moderate EI! You’re doing great!";
+      else feedback = "😂 Low EI! But at least you’re fun!";
+      resultEl.textContent = `You scored ${score}/${quizData.length}. ${feedback}`;
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
