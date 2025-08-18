@@ -3,6 +3,7 @@ const spreadsheetContainer = document.querySelector("#spreadsheet-container");
 const ROWS = 10;
 const COLS = 10;
 const spreadsheet = [];
+const alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O']
 
 class Cell {
   constructor(
@@ -31,7 +32,15 @@ function initspreadsheet() {
     for (let j = 0; j < COLS; j++) {
       var isheader, isdisabled, celldata='', rowName, columnName;
              if (j === 0){  
-        celldata = i;          
+        celldata = i; 
+        isheader = false;
+                 
+      }
+      if (i ===0 ){
+        celldata = alphabets[j-1];
+      }
+      if(!celldata){
+        celldata='';
       }
       const cell = new Cell(
         isheader,
