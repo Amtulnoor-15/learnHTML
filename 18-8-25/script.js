@@ -1,13 +1,40 @@
-const spreadsheetContainer = document.querySelector("#spreadsheet-container");
+const spreadSheetContainer = document.querySelector("#spreadsheet-container");
 
 const ROWS = 10;
 const COLS = 10;
 const spreadsheet = [];
-const alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O']
+const alphabets = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 
 class Cell {
   constructor(
-    isheader,
+    isHeader,
     disabled,
     data,
     row,
@@ -16,7 +43,7 @@ class Cell {
     columnName,
     active = false
   ) {
-    this.isheader = isheader;
+    this.isHeader = isHeader;
     this.disabled = disabled;
     this.data = data;
     this.row = row;
@@ -26,58 +53,75 @@ class Cell {
     this.active = active;
   }
 }
-function initspreadsheet() {
+
+// structure everything at oneplace cell to spreadsheet.
+function initSpreadSheet() {
   for (let i = 0; i < COLS; i++) {
-    let spreadsheetrow = [];
+    let spreadSheetRow = [];
     for (let j = 0; j < COLS; j++) {
-      var isheader, isdisabled, celldata='', rowName, columnName;
-             if (j === 0){  
-        celldata = i; 
-        isheader = false;
-                 
+      var isHeader = false,
+        isDisbaled = false,
+        cellData = "",
+        rowName,
+        columnName;
+
+      if (j === 0) {
+        cellData = i;
+        isHeader = true;
+        isDisbaled = true;
       }
-      if (i ===0 ){
-        celldata = alphabets[j-1];
+
+      if (i === 0) {
+        cellData = alphabets[j - 1];
+        isHeader = true;
+        isDisbaled = true;
       }
-      if(!celldata){
-        celldata='';
+
+      if (!cellData) {
+        cellData = "";
       }
+
       const cell = new Cell(
-        isheader,
-        isdisabled,
-        celldata,
+        isHeader,
+        isDisbaled,
+        cellData,
         i,
         j,
         rowName,
         columnName,
-        false)
-      
-    spreadsheetrow.push(cell);}
-    
-    spreadsheet.push(spreadsheetrow);
+        false
+      );
+      spreadSheetRow.push(cell);
+    }
+    spreadsheet.push(spreadSheetRow);
   }
   console.log(spreadsheet);
-  drawsheet();
+  drawSheet();
 }
-initspreadsheet();
 
-function drawsheet(){
-    for (let i = 0; i < spreadsheet.length; i++) {
+initSpreadSheet();
+
+// to print the layout on the body of html
+function drawSheet() {
+  for (let i = 0; i < spreadsheet.length; i++) {
     const rowContainerElement = document.createElement("div");
     rowContainerElement.className = "cell-row";
-    
+
     for (let j = 0; j < spreadsheet[i].length; j++) {
       const cell = spreadsheet[i][j];
       rowContainerElement.append(createCellElement(cell));
+      console.log(createCellElement(cell));
     }
-    spreadsheetContainer.appendChild(rowContainerElement);
+    spreadSheetContainer.appendChild(rowContainerElement);
   }
 }
-function createCellElement(cell){
-  const cellElement = document.createElement('input');
-  cellElement.className = 'cell';
+
+// cell element dom properties
+function createCellElement(cell) {
+  const cellElement = document.createElement("input");
+  cellElement.className = "cell";
   cellElement.value = cell.data;
-  cellElement.id = 'cell_' + cell.row + cell.column;
+  cellElement.id = "cell_" + cell.row + cell.column;
   cellElement.disabled = cell.disabled;
 
   return cellElement;
