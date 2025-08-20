@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emotional Intelligence (EI) — Assess & Improve</title>
+  <style>
+    :root{
+      --bg: #0b0f14;
+      --surface: #121823;
+      --muted: #2a3442;
+      --text: #e7edf5;
+      --accent: #5cc8ff;
+      --good: #52d273;
+      --mid: #ffd166;
+      --low: #ff6b6b;
+      --ring: 16 200 255;
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial,sans-serif;line-height:1.5}
+    a{color:var(--accent)}
+    .container{max-width:1100px;margin-inline:auto;padding:24px}
+    header{position:sticky;top:0;background:linear-gradient(180deg,rgba(11,15,20,.95),rgba(11,15,20,.65) 70%,transparent);backdrop-filter: blur(8px);z-index:10;border-bottom:1px solid #1b2330}
+    header .wrap{display:flex;align-items:center;gap:16px;padding:14px 24px}
+    .logo{width:36px;height:36px;border-radius:50%;background:conic-gradient(from 200deg at 50% 50%,#4cc9f0,#4361ee,#3a86ff,#4cc9f0);box-shadow:0 0 0 2px #0b0f14, 0 0 24px rgba(92,200,255,.35)}
+    h1{font-size:clamp(22px,3vw,36px);margin:0}
+    .subtitle{opacity:.8;margin-top:4px}
+
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card{grid-column:span 12;background:linear-gradient(180deg,rgba(18,24,35,.9),rgba(18,24,35,.6));border:1px solid #1b2330;border-radius:var(--radius);padding:18px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+    @media(min-width:820px){.card.span-4{grid-column:span 4}.card.span-6{grid-column:span 6}.card.span-8{grid-column:span 8}}
+
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #263142;padding:6px 10px;border-radius:999px;background:#0f1520}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:.85em;padding:.15em .45em;border:1px solid #2b3545;border-radius:6px;background:#0b111b}
+
+    .concepts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .concept{background:#0f1520;border:1px solid #1b2330;border-radius:14px;padding:14px}
+    .concept h3{margin:.2rem 0 .25rem 0}
+    .concept p{opacity:.9;margin:.2rem 0}
+
+    .question{padding:12px 12px;border:1px solid #1b2330;border-radius:12px;margin:10px 0;background:#0e1420}
+    .question header{position:static;background:none;border:none;backdrop-filter:none}
+    .question label{display:block;margin-bottom:8px}
+    .row{display:flex;align-items:center;gap:12px}
+    input[type=range]{width:100%}
+    .scale{font-size:.85em;opacity:.8;display:flex;justify-content:space-between}
+
+    .btn{appearance:none;border:none;background:linear-gradient(180deg,#2a78ff,#3aa0ff);color:white;padding:12px 16px;border-radius:14px;font-weight:600;cursor:pointer;box-shadow:0 10px 22px rgba(58,160,255,.25);transition:transform .05s ease}
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{background:#0f1520;border:1px solid #26405b;color:#cfe8ff}
+
+    .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+    .badge{border-radius:12px;border:1px solid #1b2330;padding:12px;background:linear-gradient(180deg,rgba(18,24,35,.9),rgba(18,24,35,.6))}
+    .badge h4{margin:.2rem 0}
+    .score{font-size:28px;font-weight:700}
+    .score.good{color:var(--good)}
+    .score.mid{color:var(--mid)}
+    .score.low{color:var(--low)}
+
+    details{border:1px solid #1b2330;border-radius:12px;padding:12px;background:#0f1520}
+    summary{cursor:pointer;font-weight:600}
+    .tips{display:grid;gap:8px;margin-top:8px}
+    .tip{border:1px dashed #26405b;border-radius:12px;padding:10px}
+
+    .footer{opacity:.8;margin-top:18px}
+    .spacer{height:12px}
+    .tag{display:inline-block;font-size:.75rem;opacity:.9;border:1px solid #2a3444;border-radius:999px;padding:4px 8px;margin-right:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap container">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Emotional Intelligence — Assess & Improve</h1>
+        <div class="subtitle">Assess your skills across the 5 key EI areas. Get tailored tips + improvement ideas inspired by the Prophet Muhammad’s (peace be upon him) life examples.</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top:12px">
+    <div class="grid">
+      <section class="card span-8">
+        <div class="pill" title="What’s inside?">
+          <span>🔎 EI Concepts</span>
+        </div>
+        <h2>5 Key Concepts of EI</h2>
+        <div class="concepts" id="concepts">
+          <article class="concept">
+            <h3>1) Self‑Awareness</h3>
+            <p>Knowing your feelings, triggers, strengths, and blind spots in the moment.</p>
+            <span class="tag">Reflection</span><span class="tag">Naming emotions</span>
+          </article>
+          <article class="concept">
+            <h3>2) Self‑Regulation</h3>
+            <p>Managing impulses and emotions so you respond wisely, not react quickly.</p>
+            <span class="tag">Pause</span><span class="tag">Boundaries</span>
+          </article>
+          <article class="concept">
+            <h3>3) Motivation</h3>
+            <p>Inner drive to pursue goals with purpose, optimism, and persistence.</p>
+            <span class="tag">Grit</span><span class="tag">Purpose</span>
+          </article>
+          <article class="concept">
+            <h3>4) Empathy</h3>
+            <p>Understanding others’ perspectives and feelings; acting with compassion.</p>
+            <span class="tag">Active listening</span><span class="tag">Compassion</span>
+          </article>
+          <article class="concept">
+            <h3>5) Social Skills</h3>
+            <p>Building healthy relationships through communication, influence, and collaboration.</p>
+            <span class="tag">Clear speech</span><span class="tag">Conflict resolution</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="card span-4">
+        <div class="pill"><span>📌 How to use</span></div>
+        <p>Rate yourself honestly on each statement (1 = rarely, 5 = almost always). After you submit, you’ll see scores for each EI area and practical suggestions to improve.</p>
+        <ul>
+          <li>Try again in a few weeks to track progress.</li>
+          <li>Use the tips inspired by the Prophetic example with humility and respect.</li>
+        </ul>
+      </section>
+
+      <section class="card span-8" id="assessment">
+        <div class="pill"><span>🧪 Assessment</span></div>
+        <h2>Rate the statements</h2>
+        <form id="eiForm">
+          <!-- Self-Awareness (3) -->
+          <div class="question">
+            <label for="sa1"><strong>Self‑Awareness:</strong> I can name what I’m feeling in the moment.</label>
+            <div class="row">
+              <input type="range" id="sa1" name="sa1" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="sa2">I can identify my top triggers and early warning signs.</label>
+            <div class="row">
+              <input type="range" id="sa2" name="sa2" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="sa3">I know my strengths and blind spots and plan around them.</label>
+            <div class="row">
+              <input type="range" id="sa3" name="sa3" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+
+          <!-- Self-Regulation (3) -->
+          <div class="question">
+            <label for="sr1"><strong>Self‑Regulation:</strong> When upset, I pause before responding.</label>
+            <div class="row">
+              <input type="range" id="sr1" name="sr1" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="sr2">I set boundaries and protect my focus.</label>
+            <div class="row">
+              <input type="range" id="sr2" name="sr2" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="sr3">I can calm myself with breathing, dhikr, or short breaks.</label>
+            <div class="row">
+              <input type="range" id="sr3" name="sr3" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+
+          <!-- Motivation (3) -->
+          <div class="question">
+            <label for="m1"><strong>Motivation:</strong> I set meaningful goals and review them weekly.</label>
+            <div class="row">
+              <input type="range" id="m1" name="m1" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="m2">I persist through setbacks and learn from them.</label>
+            <div class="row">
+              <input type="range" id="m2" name="m2" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="m3">I keep a hopeful outlook even under stress.</label>
+            <div class="row">
+              <input type="range" id="m3" name="m3" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+
+          <!-- Empathy (3) -->
+          <div class="question">
+            <label for="e1"><strong>Empathy:</strong> I listen without interrupting and reflect back what I heard.</label>
+            <div class="row">
+              <input type="range" id="e1" name="e1" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="e2">I notice unspoken feelings (tone, face, body language).</label>
+            <div class="row">
+              <input type="range" id="e2" name="e2" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="e3">I respond with kindness, especially to the vulnerable.</label>
+            <div class="row">
+              <input type="range" id="e3" name="e3" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+
+          <!-- Social Skills (3) -->
+          <div class="question">
+            <label for="ss1"><strong>Social Skills:</strong> I communicate clearly and respectfully.</label>
+            <div class="row">
+              <input type="range" id="ss1" name="ss1" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="ss2">I handle conflicts calmly and seek win‑win outcomes.</label>
+            <div class="row">
+              <input type="range" id="ss2" name="ss2" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+          <div class="question">
+            <label for="ss3">I build trust by keeping promises and being fair.</label>
+            <div class="row">
+              <input type="range" id="ss3" name="ss3" min="1" max="5" value="3" />
+              <div class="scale"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+          <div class="row" style="justify-content:flex-end">
+            <button type="button" class="btn secondary" id="resetBtn">Reset</button>
+            <button type="button" class="btn" id="submitBtn">See My Results</button>
+          </div>
+        </form>
+
+        <div id="results" style="display:none">
+          <h3>Your Scores</h3>
+          <div class="results" id="scoreCards"></div>
+          <div class="spacer"></div>
+          <details open>
+            <summary>📈 Interpreting your scores</summary>
+            <div class="tips">
+              <div class="tip">4.2–5.0: Strength — keep practicing and mentor others.</div>
+              <div class="tip">3.0–4.1: Developing — focus on 2–3 specific habits for 2 weeks.</div>
+              <div class="tip">1.0–2.9: Priority area — start small, practice daily, track progress.</div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="card span-4">
+        <div class="pill"><span>🌙 Prophetic EI: Overview</span></div>
+        <p>This section offers improvement ideas inspired by the Prophet Muhammad’s (peace be upon him) character — such as patience, compassion, justice, and mercy — as described in Islamic tradition. They are shared with respect and for personal growth; different communities may emphasize different narrations and interpretations.</p>
+      </section>
+
+      <section class="card span-12" id="improvement">
+        <div class="pill"><span>🛠️ Improvement Ideas</span></div>
+        <h2>From Insight to Action</h2>
+        <div class="grid">
+          <div class="card span-6" style="background:#0f1520">
+            <details open>
+              <summary>Self‑Awareness — Reflective practice</summary>
+              <div class="tips">
+                <div class="tip"><strong>Prophetic example:</strong> Habit of reflection and supplications that include acknowledging one’s state, gratitude, and seeking guidance.
+                </div>
+                <div class="tip"><strong>Try this:</strong> End your day with a 5‑minute journal: “What did I feel today? What triggered it? What did I learn?” Pair with brief dhikr or prayer for grounding.</div>
+                <div class="tip"><strong>Micro‑habit:</strong> Name your emotion aloud — “I’m feeling tense and rushed.” Naming often reduces intensity.</div>
+              </div>
+            </details>
+          </div>
+          <div class="card span-6" style="background:#0f1520">
+            <details>
+              <summary>Self‑Regulation — Composure & restraint</summary>
+              <div class="tips">
+                <div class="tip"><strong>Prophetic example:</strong> Teaching about anger management (e.g., advising “do not become angry”) and modeling patience in adversity, such as responding to hostility with restraint.</div>
+                <div class="tip"><strong>Try this:</strong> Use the <span class="kbd">4‑4‑8</span> breath (inhale 4, hold 4, exhale 8) three times before replying when upset. If possible, change posture or step away briefly.</div>
+                <div class="tip"><strong>Micro‑habit:</strong> Create a “cool‑down phrase” you always say before responding: “Give me a moment to think.”</div>
+              </div>
+            </details>
+          </div>
+          <div class="card span-6" style="background:#0f1520">
+            <details>
+              <summary>Motivation — Purpose & perseverance</summary>
+              <div class="tips">
+                <div class="tip"><strong>Prophetic example:</strong> Perseverance through setbacks with trust, optimism, and steady effort; focusing on long‑term mission over short‑term ease.</div>
+                <div class="tip"><strong>Try this:</strong> Write a purpose statement for the next 90 days. Break into weekly goals. Review every Friday and celebrate one small win.</div>
+                <div class="tip"><strong>Micro‑habit:</strong> Start sessions with intention‑setting: “Why does this task matter?”</div>
+              </div>
+            </details>
+          </div>
+          <div class="card span-6" style="background:#0f1520">
+            <details>
+              <summary>Empathy — Mercy & compassion</summary>
+              <div class="tips">
+                <div class="tip"><strong>Prophetic example:</strong> Consistent compassion toward children, orphans, the poor, and even animals; gentle speech with those seeking help.</div>
+                <div class="tip"><strong>Try this:</strong> Practice active listening: reflect back, label feelings, and ask one curious question before offering advice.</div>
+                <div class="tip"><strong>Micro‑habit:</strong> Do one quiet act of service daily without expecting credit.</div>
+              </div>
+            </details>
+          </div>
+          <div class="card span-6" style="background:#0f1520">
+            <details>
+              <summary>Social Skills — Trust & reconciliation</summary>
+              <div class="tips">
+                <div class="tip"><strong>Prophetic example:</strong> Known as “the trustworthy” (Al‑Amīn) before prophethood; encouraged consultation (shūrā) and forgave opponents, promoting reconciliation.</div>
+                <div class="tip"><strong>Try this:</strong> In disagreements, restate the other side’s view to their satisfaction before stating yours. Seek fair solutions.</div>
+                <div class="tip"><strong>Micro‑habit:</strong> Keep one promise each day that you would normally postpone.</div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-12">
+        <div class="pill"><span>🧭 Optional: Weekly Plan</span></div>
+        <p>Pick <strong>one</strong> EI area for the next 14 days. Add 1 daily micro‑habit and a 10‑minute weekly review. Small steps, consistently.</p>
+        <div class="grid">
+          <div class="card span-6" style="background:#0f1520">
+            <h4>Tracker</h4>
+            <p>Use the button to export your plan and scores as JSON you can save and re‑import later.</p>
+            <div class="row">
+              <button class="btn secondary" id="exportBtn">Export My Plan + Scores</button>
+              <input type="file" id="importFile" accept="application/json" style="display:none" />
+              <button class="btn" id="importBtn">Import</button>
+            </div>
+            <pre id="exportPreview" style="white-space:pre-wrap;word-break:break-word;margin-top:10px;max-height:240px;overflow:auto"></pre>
+          </div>
+          <div class="card span-6" style="background:#0f1520">
+            <h4>My Focus</h4>
+            <label>EI Area
+              <select id="focusArea">
+                <option>Self‑Awareness</option>
+                <option>Self‑Regulation</option>
+                <option>Motivation</option>
+                <option>Empathy</option>
+                <option>Social Skills</option>
+              </select>
+            </label>
+            <label>Daily Micro‑Habit
+              <input id="microHabit" placeholder="e.g., 3 breaths before replying" />
+            </label>
+            <label>Weekly Review Day
+              <input id="reviewDay" placeholder="e.g., Friday" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-12 footer">
+        <p>Built for learning purposes. Religious content is presented respectfully and briefly; for deeper study, consult reliable scholars and sources.</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const areas = {
+      'Self‑Awareness': ['sa1','sa2','sa3'],
+      'Self‑Regulation': ['sr1','sr2','sr3'],
+      'Motivation': ['m1','m2','m3'],
+      'Empathy': ['e1','e2','e3'],
+      'Social Skills': ['ss1','ss2','ss3']
+    };
+
+    const tips = {
+      'Self‑Awareness': [
+        'Keep a 5‑minute evening journal: feelings, triggers, lessons.',
+        'Name emotions as they arise; use a feelings vocabulary list.',
+        'Do a weekly strengths/blind‑spots review and plan one adjustment.'
+      ],
+      'Self‑Regulation': [
+        'Use 4‑4‑8 breathing before tough conversations.',
+        'Write a “cool‑down phrase” you’ll always say when upset.',
+        'Create focus boundaries: notifications off for 30‑minute deep work.'
+      ],
+      'Motivation': [
+        'Set a 90‑day purpose with weekly checkpoints.',
+        'Track tiny wins daily to fuel momentum.',
+        'Pair tasks with intention (why it matters) before starting.'
+      ],
+      'Empathy': [
+        'Listen to understand: reflect back and ask one question.',
+        'Notice body language; check in gently on emotions.',
+        'Do one quiet act of service daily.'
+      ],
+      'Social Skills': [
+        'Restate the other side before sharing your view.',
+        'Keep small promises to build trust.',
+        'Use “we‑language” to seek fair, win‑win outcomes.'
+      ]
+    };
+
+    const prophetic = {
+      'Self‑Awareness': 'Reflective supplications and gratitude; acknowledging one\'s inner state and seeking guidance.',
+      'Self‑Regulation': 'Teaching restraint in anger and modeling patience; responding with calm even under provocation.',
+      'Motivation': 'Perseverance with hope and purpose through hardship; steady effort toward long‑term good.',
+      'Empathy': 'Mercy and gentleness toward children, the poor, and even animals; meeting needs with kindness.',
+      'Social Skills': 'Trustworthiness (Al‑Amīn), consultation (shūrā), and forgiveness leading to reconciliation.'
+    };
+
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const scoreCards = document.getElementById('scoreCards');
+    const results = document.getElementById('results');
+
+    function avg(ids){
+      const vals = ids.map(id => Number(document.getElementById(id).value));
+      return vals.reduce((a,b)=>a+b,0)/ids.length;
+    }
+
+    function level(score){
+      if(score >= 4.2) return {label:'Strength', cls:'good'};
+      if(score >= 3.0) return {label:'Developing', cls:'mid'};
+      return {label:'Priority', cls:'low'};
+    }
+
+    function renderScores(){
+      scoreCards.innerHTML = '';
+      for(const [area, ids] of Object.entries(areas)){
+        const score = Number(avg(ids).toFixed(2));
+        const {label, cls} = level(score);
+        const lis = tips[area].map(t => `<li>${t}</li>`).join('');
+        const card = document.createElement('div');
+        card.className = 'badge';
+        card.innerHTML = `
+          <h4>${area}</h4>
+          <div class="score ${cls}">${score}</div>
+          <div class="subtitle">${label}</div>
+          <details>
+            <summary>Improvement ideas + Prophetic example</summary>
+            <div class="tips">
+              <div class="tip"><strong>Prophetic example:</strong> ${prophetic[area]}</div>
+              <div class="tip"><strong>Practical tips:</strong>
+                <ul>${lis}</ul>
+              </div>
+            </div>
+          </details>
+        `;
+        scoreCards.appendChild(card);
+      }
+      results.style.display = 'block';
+      results.scrollIntoView({behavior:'smooth'});
+    }
+
+    submitBtn.addEventListener('click', renderScores);
+
+    resetBtn.addEventListener('click', ()=>{
+      document.getElementById('eiForm').reset();
+      document.getElementById('exportPreview').textContent = '';
+      results.style.display = 'none';
+      scoreCards.innerHTML = '';
+      // Reset ranges to middle (3)
+      document.querySelectorAll('input[type=range]').forEach(r => r.value = 3);
+    });
+
+    // Export / Import plan + scores
+    document.getElementById('exportBtn').addEventListener('click', ()=>{
+      const focusArea = document.getElementById('focusArea').value;
+      const microHabit = document.getElementById('microHabit').value;
+      const reviewDay = document.getElementById('reviewDay').value;
+      const scores = Object.fromEntries(Object.entries(areas).map(([k,ids])=>[k, avg(ids)]));
+      const payload = { when: new Date().toISOString(), focusArea, microHabit, reviewDay, scores };
+      const json = JSON.stringify(payload, null, 2);
+      document.getElementById('exportPreview').textContent = json;
+      const blob = new Blob([json], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'ei-plan-and-scores.json'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('importBtn').addEventListener('click', ()=>{
+      document.getElementById('importFile').click();
+    });
+    document.getElementById('importFile').addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        try{
+          const data = JSON.parse(reader.result);
+          if(data.focusArea) document.getElementById('focusArea').value = data.focusArea;
+          if(data.microHabit) document.getElementById('microHabit').value = data.microHabit;
+          if(data.reviewDay) document.getElementById('reviewDay').value = data.reviewDay;
+          if(data.scores){
+            // Distribute averages back approximately across sliders
+            for(const [areaName, mean] of Object.entries(data.scores)){
+              const ids = areas[areaName];
+              if(!ids) continue;
+              ids.forEach(id => {
+                document.getElementById(id).value = Math.round(mean);
+              });
+            }
+          }
+          document.getElementById('exportPreview').textContent = 'Imported ✅';
+        }catch(err){
+          document.getElementById('exportPreview').textContent = 'Import failed: ' + err.message;
+        }
+      }
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
