@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stopwatch</title>
+  <style>
+    :root {
+      --bg: #0f1220;
+      --panel: #171a2b;
+      --accent: #6ee7ff;
+      --accent-2: #a78bfa;
+      --text: #e6e8f0;
+      --muted: #a0a6c0;
+      --ring: rgba(110, 231, 255, 0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #1b1e35 0%, var(--bg) 50%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: min(680px, 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+    .header {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(180deg, rgba(167,139,250,0.15), rgba(110,231,255,0.05));
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .title { font-size: 20px; font-weight: 700; letter-spacing: 0.3px; }
+    .hint { color: var(--muted); font-size: 12px; }
+
+    .time {
+      display: grid;
+      place-items: center;
+      padding: 28px 24px 8px;
+      gap: 8px;
+    }
+    .display {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      font-size: clamp(36px, 8vw, 64px);
+      letter-spacing: 1px;
+      text-shadow: 0 4px 24px rgba(110, 231, 255, 0.25);
+    }
+    .sub { color: var(--muted); font-size: 13px; }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 16px 24px 24px;
+    }
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+
+    .primary { background: linear-gradient(180deg, rgba(110,231,255,0.15), rgba(167,139,250,0.15)); }
+    .danger { background: linear-gradient(180deg, rgba(255, 99, 132, 0.18), rgba(255, 99, 132, 0.10)); }
+    .ghost { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); }
+
+    .laps {
+      max-height: 300px;
+      overflow: auto;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.12);
+    }
+    table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th, td { padding: 12px 16px; text-align: left; }
+    th { position: sticky; top: 0; background: rgba(17,20,36,0.9); font-weight: 700; font-size: 13px; letter-spacing: .2px; }
+    tr + tr td { border-top: 1px dashed rgba(255,255,255,0.06); }
+    .right { text-align: right; }
+    .muted { color: var(--muted); }
+
+    @media (max-width: 520px) {
+      .controls { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="region" aria-label="Stopwatch">
+    <div class="header">
+      <div>
+        <div class="title">⏱️ Stopwatch</div>
+        <div class="hint">Space: Start/Pause · L: Lap · R: Reset</div>
+      </div>
+    </div>
+
+    <div class="time">
+      <div id="display" class="display" aria-live="polite" aria-atomic="true">00:00.000</div>
+      <div id="status" class="sub muted">Ready</div>
+    </div>
+
+    <div class="controls">
+      <button id="startPause" class="primary" aria-pressed="false">Start</button>
+      <button id="lap" class="ghost" disabled>Lap</button>
+      <button id="reset" class="danger" disabled>Reset</button>
+    </div>
+
+    <div class="laps" aria-live="polite">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Split</th>
+            <th class="right">Lap</th>
+            <th class="right">Total</th>
+          </tr>
+        </thead>
+        <tbody id="lapsBody">
+          <tr class="muted"><td colspan="4">No laps yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const statusEl = document.getElementById('status');
+    const startPauseBtn = document.getElementById('startPause');
+    const lapBtn = document.getElementById('lap');
+    const resetBtn = document.getElementById('reset');
+    const lapsBody = document.getElementById('lapsBody');
+
+    let running = false;
+    let startTime = 0;      // timestamp when (re)started
+    let elapsed = 0;        // accumulated time when paused
+    let rafId = null;       // requestAnimationFrame id
+    let lastLapElapsed = 0; // elapsed at last lap
+    let splitCount = 0;     // number of splits (lap presses)
+
+    function fmt(ms) {
+      const totalMs = Math.floor(ms);
+      const minutes = Math.floor(totalMs / 60000);
+      const seconds = Math.floor((totalMs % 60000) / 1000);
+      const millis = totalMs % 1000;
+      const mm = String(minutes).padStart(2, '0');
+      const ss = String(seconds).padStart(2, '0');
+      const mmm = String(millis).padStart(3, '0');
+      return `${mm}:${ss}.${mmm}`;
+    }
+
+    function update() {
+      const now = performance.now();
+      const current = now - startTime + elapsed;
+      display.textContent = fmt(current);
+      rafId = requestAnimationFrame(update);
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      startTime = performance.now();
+      statusEl.textContent = 'Running…';
+      startPauseBtn.textContent = 'Pause';
+      startPauseBtn.setAttribute('aria-pressed', 'true');
+      lapBtn.disabled = false;
+      resetBtn.disabled = false;
+      rafId = requestAnimationFrame(update);
+    }
+
+    function pause() {
+      if (!running) return;
+      running = false;
+      cancelAnimationFrame(rafId);
+      rafId = null;
+      const now = performance.now();
+      elapsed += now - startTime;
+      statusEl.textContent = 'Paused';
+      startPauseBtn.textContent = 'Resume';
+      startPauseBtn.setAttribute('aria-pressed', 'false');
+    }
+
+    function reset() {
+      running = false;
+      cancelAnimationFrame(rafId);
+      rafId = null;
+      startTime = 0;
+      elapsed = 0;
+      lastLapElapsed = 0;
+      splitCount = 0;
+      display.textContent = '00:00.000';
+      statusEl.textContent = 'Ready';
+      startPauseBtn.textContent = 'Start';
+      startPauseBtn.setAttribute('aria-pressed', 'false');
+      lapBtn.disabled = true;
+      resetBtn.disabled = true;
+      lapsBody.innerHTML = '<tr class="muted"><td colspan="4">No laps yet</td></tr>';
+    }
+
+    function lap() {
+      // current elapsed considering running/paused
+      const currentElapsed = running ? (performance.now() - startTime + elapsed) : elapsed;
+      const lapTime = currentElapsed - lastLapElapsed;
+      lastLapElapsed = currentElapsed;
+      splitCount += 1;
+
+      if (lapsBody.firstElementChild && lapsBody.firstElementChild.classList.contains('muted')) {
+        lapsBody.innerHTML = '';
+      }
+
+      const tr = document.createElement('tr');
+      const tdIndex = document.createElement('td');
+      const tdSplit = document.createElement('td');
+      const tdLap = document.createElement('td');
+      const tdTotal = document.createElement('td');
+      tdIndex.textContent = splitCount;
+      tdSplit.textContent = `Split ${splitCount}`;
+      tdLap.textContent = fmt(lapTime);
+      tdTotal.textContent = fmt(currentElapsed);
+      tdLap.className = 'right';
+      tdTotal.className = 'right';
+
+      tr.appendChild(tdIndex);
+      tr.appendChild(tdSplit);
+      tr.appendChild(tdLap);
+      tr.appendChild(tdTotal);
+
+      // prepend newest on top
+      if (lapsBody.firstChild) {
+        lapsBody.insertBefore(tr, lapsBody.firstChild);
+      } else {
+        lapsBody.appendChild(tr);
+      }
+    }
+
+    // Event listeners
+    startPauseBtn.addEventListener('click', () => running ? pause() : start());
+    resetBtn.addEventListener('click', reset);
+    lapBtn.addEventListener('click', lap);
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.target && ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return; // don't hijack typing
+      if (e.code === 'Space') { e.preventDefault(); running ? pause() : start(); }
+      if (e.key.toLowerCase() === 'l') { if (!lapBtn.disabled) lap(); }
+      if (e.key.toLowerCase() === 'r') { if (!resetBtn.disabled) reset(); }
+    });
+
+    // Double-click display to lap
+    display.addEventListener('dblclick', () => { if (!lapBtn.disabled) lap(); });
+  </script>
+</body>
+</html>
