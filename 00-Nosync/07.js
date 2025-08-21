@@ -24,4 +24,4 @@ function def() {
 }
 abc("prash", getUser);
 def(); 
-Footer
+
