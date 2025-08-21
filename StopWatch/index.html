@@ -2,12 +2,52 @@
 <html>
 <head>
   <title>Simple Stopwatch</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2); /* aesthetic gradient */
+      color: white;
+    }
+
+    #display {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin: 5px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:nth-child(1) { background: #38bdf8; }   /* Start */
+    button:nth-child(2) { background: #f87171; }   /* Stop */
+    button:nth-child(3) { background: #34d399; }   /* Reset */
+
+    button:hover {
+      opacity: 0.85;
+    }
+  </style>
 </head>
 <body>
   <h1 id="display">00:00:00</h1>
-  <button onclick="start()">Start</button>
-  <button onclick="pause()">Pause</button>
-  <button onclick="reset()">Reset</button>
+  <div>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button onclick="reset()">Reset</button>
+  </div>
 
   <script>
     let startTime = 0;
@@ -32,11 +72,12 @@
       timerId = setInterval(updateDisplay, 1000);
     }
 
-    function pause() {
-      if (!timerId) return; // already paused
+    function stop() {
       clearInterval(timerId);
-      elapsed += Date.now() - startTime;
       timerId = null;
+      startTime = 0;
+      elapsed = 0;
+      document.getElementById("display").textContent = "00:00:00";
     }
 
     function reset() {
