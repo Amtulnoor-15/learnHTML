@@ -19,13 +19,19 @@
       padding: 30px 40px;
       border-radius: 10px;
       box-shadow: 0 0 15px #26c6da;
-      max-width: 350px;
+      max-width: 400px;
       width: 100%;
       text-align: center;
     }
     h1 {
       color: #00796b;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 0.9em;
+      color: #555;
       margin-bottom: 20px;
+      line-height: 1.4em;
     }
     input {
       width: 80%;
@@ -50,10 +56,15 @@
       background: #004d40;
     }
     .result {
-      margin-top: 25px;
-      font-size: 1.2em;
+      margin-top: 20px;
+      font-size: 1.1em;
       color: #004d40;
       font-weight: bold;
+    }
+    .explanation {
+      margin-top: 15px;
+      font-size: 0.95em;
+      color: #333;
     }
   </style>
 </head>
@@ -61,10 +72,16 @@
 
 <div class="container">
   <h1>BMI Calculator</h1>
+  <p>
+    BMI (Body Mass Index) is a measure of body fat based on your weight and height.  
+    It helps identify whether you're underweight, at a healthy weight, overweight, or obese.  
+    Formula: <strong>BMI = weight (kg) ÷ [height (m)]²</strong>
+  </p>
   <input type="number" id="weight" placeholder="Weight (kg)" min="1" />
   <input type="number" id="height" placeholder="Height (cm)" min="1" />
   <button onclick="calculateBMI()">Calculate BMI</button>
   <div id="result" class="result"></div>
+  <div id="explanation" class="explanation"></div>
 </div>
 
 <script>
@@ -74,6 +91,7 @@
 
     if (!weight || !heightCm || weight <= 0 || heightCm <= 0) {
       document.getElementById('result').textContent = "Please enter valid positive numbers!";
+      document.getElementById('explanation').textContent = "";
       return;
     }
 
@@ -82,18 +100,28 @@
     const bmiRounded = bmi.toFixed(2);
 
     let category = '';
+    let advice = '';
 
     if (bmi < 18.5) {
       category = 'Underweight';
+      advice = 'You may need to gain some healthy weight. Consider consulting a nutritionist and including more nutrient-rich foods in your diet.';
     } else if (bmi >= 18.5 && bmi < 24.9) {
       category = 'Normal weight';
+      advice = 'Great job! Maintain your weight with a balanced diet and regular physical activity.';
     } else if (bmi >= 25 && bmi < 29.9) {
       category = 'Overweight';
+      advice = 'You may want to lose some weight. Try regular exercise and a healthy eating plan.';
     } else {
       category = 'Obese';
+      advice = 'It’s important to work towards weight reduction. Please consult a doctor or nutritionist for a proper health plan.';
     }
 
     document.getElementById('result').textContent = `Your BMI is ${bmiRounded} (${category})`;
+    document.getElementById('explanation').innerHTML = `
+      <strong>How it was calculated:</strong><br>
+      BMI = ${weight} ÷ (${heightM.toFixed(2)} × ${heightM.toFixed(2)})<br><br>
+      <strong>What you should do:</strong> ${advice}
+    `;
   }
 </script>
 
