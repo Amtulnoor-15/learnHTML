@@ -121,15 +121,15 @@
       });
     }
 
+    // ✅ Updated function without highlighting
     function selectOption(index) {
       const q = quizData[currentQuestion];
       if (index === q.answer) {
         score++;
       }
-      Array.from(optionsEl.children).forEach((li, i) => {
+      // Disable clicks on options
+      Array.from(optionsEl.children).forEach((li) => {
         li.style.pointerEvents = "none";
-        if (i === q.answer) li.style.background = "#55efc4";
-        else if (i === index) li.style.background = "#fab1a0";
       });
       nextBtn.style.display = "block";
     }
